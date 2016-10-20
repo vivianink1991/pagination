@@ -1,5 +1,7 @@
 ## **调用说明**
-    ```pagination(container, options)```
+```
+    pagination(container, options);
+```
 
 ## **参数说明**
 
