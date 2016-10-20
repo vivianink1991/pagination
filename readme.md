@@ -45,16 +45,16 @@
 #### **show_total_page**
 是否显示总页码数，默认 false
 
-#### **total_text
+#### **total_text**
 设置总页码中表示“总共”的文本内容，默认’tatal‘
 
-#### **pages_text
+#### **pages_text**
 设置总页码中表示“页”的文本内容，默认’pages‘
 
-#### **show_go_to_page
+#### **show_go_to_page**
 是否显示前往某页
 
-#### **go_to_text
+#### **go_to_text**
 设置表示’前往‘的文本内容，默认’go to‘
 
 
