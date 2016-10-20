@@ -25,11 +25,11 @@ pagination(container, options);
 
 #### current
 
-初始化页码组件时选中的页码，默认是0。在设置时请与page_index的设置方式保持一致。
+初始化页码组件时选中的页码，默认是1。在设置时请与`page_index`的设置方式保持一致。
 
 #### page_index
 
-页码起始序号(类似数组下标)，只能是0或1，默认是0。
+页码起始序号(类似数组下标)，只能是0或1，默认是1。
 
 #### num_pages
 
@@ -57,11 +57,11 @@ pagination(container, options);
 
 #### link_to
 
-设置页码的href值，默认为'_num_', 当href中包含'_num_'时，会替换'_num_'为对应的页码数。
+设置页码的href值，默认为`{{page_number}}`, 当href中包含'{{page_number}}'时，会替换'{{page_number}}'为对应的页码数。
 
 #### callback(event, index)
 
-点击页码后的回调函数，以加载新的内容、更新页面跳转模块等。该回调函数需要两个参数:
+点击页码后的回调函数，以加载新的内容等。该回调函数需要两个参数:
 
 0. `event`
     
