@@ -57,7 +57,7 @@ pagination(container, options);
 
 #### link_to
 
-设置页码的href值，默认为`{{page_number}}`, 当href中包含'{{page_number}}'时，会替换'{{page_number}}'为对应的页码数。
+设置页码的href值，默认为`{{page_number}}`, 当href中包含`{{page_number}}`时，会替换`{{page_number}}`为对应的页码数。
 
 #### callback(event, index)
 
