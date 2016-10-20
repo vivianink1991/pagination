@@ -1,7 +1,8 @@
-## 调用说明
+## 使用说明
 
 ```js
-var pages = pagination(container, options);
+import pagination from 'pagination'; 
+pagination(container, options);
 ```
 
 ## 参数说明
@@ -30,13 +31,17 @@ var pages = pagination(container, options);
 
 页码起始序号(类似数组下标)，只能是0或1，默认是0。
 
-#### ellipse_before_entries
+#### num_pages
 
-ellipse_text前能看到的页码个数，默认10。
+最多能显示的页码数。
 
-#### ellipse_after_entries
+#### first_text
 
-ellipse_text后能看到的页码个数，默认1。
+指定首页文字，默认值为1。
+
+#### last_text
+
+指定尾页文字，默认值为`{{total_pages}}`。
 
 #### ellipse_text
 
@@ -44,15 +49,15 @@ ellipse_text后能看到的页码个数，默认1。
 
 #### prev_text
 
-前一页按钮的文本内容，默认'&lt;'。
+前一页按钮的文本内容，默认`<`。
 
 #### next_text
 
-下一页按钮的文本内容，默认'&gt;'。
+下一页按钮的文本内容，默认`>`。
 
 #### link_to
 
-设置页码的href值，默认'#'。
+设置页码的href值，默认为'_num_', 当href中包含'_num_'时，会替换'_num_'为对应的页码数。
 
 #### callback(event, index)
 
@@ -68,19 +73,20 @@ ellipse_text后能看到的页码个数，默认1。
 
 #### load_first_page
 
-为真则初始化组件时callback会被调用，默认flase。如果在初始化组件时已经通过AJAX加载展示了数据，则一定要设置成false。
+为`true`则初始化组件时`callback(event, index)`会被调用，默认`false`。
 
-#### stylePrefix
+#### style_prefix
 
 用于指定样式类名的前缀。
 
 ## 返回值
 
-返回值是一个对象，该对象包含两个方法：
+返回值包含以下方法：
 
 ### getStatus()
 
-返回值：    
+返回值：
+
 ```js
 {
     current, //当前页
@@ -91,4 +97,4 @@ ellipse_text后能看到的页码个数，默认1。
 
 ### go(index)
 
-调用该方法可直接跳转到参数`index`所指定的页码数。
+跳转到参数`index`所指定的页码数。
