@@ -60,9 +60,11 @@ ellipse_text后能看到的页码个数，默认1。
 
 0. `event`
     
-    主要可用于阻止点击后的默认行为 `event.preventDefault();`
+    例如用于阻止点击后的默认行为 `event.preventDefault();`
 
-0. `index`：新的页码
+0. `index`
+
+    新的页码
 
 #### load_first_page
 
