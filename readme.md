@@ -77,7 +77,7 @@ pagination(container, options);
 
 #### style_prefix
 
-用于指定样式类名的前缀。
+用于指定样式类名的前缀，默认为`pagination`。
 
 ## 返回值
 
