@@ -33,15 +33,15 @@ pagination(container, options);
 
 #### num_pages
 
-最多能显示的页码数。
+最多能显示的页码数, 默认是5。
 
 #### first_text
 
-指定首页文字，默认值为1。
+指定首页文字，默认值为1。传入`null`值表示不显示首页按钮。
 
 #### last_text
 
-指定尾页文字，默认值为`{{total_pages}}`。
+指定尾页文字，默认值为`{{total_pages}}`。传入`null`值表示不显示尾页按钮。
 
 #### ellipse_text
 
