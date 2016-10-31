@@ -1,2 +1,4 @@
-*.css
+*.scss
 test
+js
+node_modules

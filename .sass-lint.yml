@@ -1,0 +1,48 @@
+files:
+  include: '*.s+(a|c)ss'
+  ignore:
+    - 'style/lib/**/*.*'
+options:
+  merge-default-rules: false
+rules:
+  class-name-format:
+    - 1
+    - convention: snakecase
+  function-name-format:
+    - 1
+    - convention: snakecase
+  indentation:
+    - 1
+    - size: 4
+  mixin-name-format:
+    - 1
+    - convention: snakecase
+  nesting-depth:
+    - 1
+  no-duplicate-properties:
+    - 1
+  no-empty-rulesets: 2
+  no-ids: 2
+  no-invalid-hex: 2
+  no-misspelled-properties: 1
+  no-vendor-prefixes: 1
+  no-important: 1
+  no-universal-selectors: 1
+  placeholder-name-format:
+    - 1
+    - convention: snakecase
+  space-after-comma:
+    - 1
+  space-around-operator:
+    - 1
+  space-before-bang:
+    - 1
+  space-before-colon:
+    - 1
+  trailing-semicolon:
+    - 2
+  variable-name-format:
+    - 1
+    - convention: snakecase
+  zero-unit:
+    - 1

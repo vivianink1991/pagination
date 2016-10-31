@@ -57,7 +57,7 @@ pagination(container, options);
 
 #### link_to
 
-设置页码的href值，默认为`{{page_number}}`, 当href中包含`{{page_number}}`时，会替换`{{page_number}}`为对应的页码数。
+设置页码的href值，默认为`{{page_num}}`, 当href中包含`{{page_num}}`时，会替换`{{page_num}}`为对应的页码数。
 
 #### callback(event, index)
 
@@ -98,3 +98,11 @@ pagination(container, options);
 ### go(index)
 
 跳转到参数`index`所指定的页码数。
+
+### goPrev()
+
+向前一页
+
+### goNext()
+
+向后一页
