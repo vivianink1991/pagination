@@ -45,7 +45,7 @@ pagination(container, options);
 
 #### ellipse_text
 
-页码省略显示的文本内容，默认'...'。
+页码省略显示的文本内容，默认`...`。
 
 #### prev_text
 
@@ -73,7 +73,7 @@ pagination(container, options);
 
 #### load_first_page
 
-为`true`则初始化组件时`callback(event, index)`会被调用，默认`false`。
+为`true`则初始化组件后调用`callback(event, index)`，默认`false`。
 
 #### style_prefix
 
