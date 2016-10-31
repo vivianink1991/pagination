@@ -1,34 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global.pagination = factory());
-}(this, (function () { 'use strict';
-
-function addEvent(elem, type, handler) {
-    if (document.addEventListener) {
-        elem.addEventListener(type, handler, false);
-    } else if (document.attachEvent) {
-        elem.attachEvent('on' + type, handler);
-    } else {
-        elem['on' + type] = handler;
-    }
-}
-
-function getEvent(event) {
-    return event ? event : window.event;
-}
-
-function getTarget(event) {
-    return event.target || event.srcElement;
-}
-
-function preventDefault(event) {
-    if (event.preventDefault) {
-        event.preventDefault();
-    } else {
-        event.returnValue = false;
-    }
-}
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('event')) :
+    typeof define === 'function' && define.amd ? define(['event'], factory) :
+    (global.pagination = factory(global.event));
+}(this, (function (event) { 'use strict';
 
 function extend(src, dst) {
     var keys = Object.keys(dst);
@@ -56,8 +30,8 @@ function PageSet(container, options) {
         prev_text: '&lt',
         next_text: '&gt',
         link_to: '{{page_num}}',
-        callback: function callback(event, index) {
-            preventDefault(getEvent(event));
+        callback: function callback(event$$1, index) {
+            event.preventDefault(event.getEvent(event$$1));
         },
         load_first_page: false,
         style_prefix: 'pagination'
@@ -252,9 +226,9 @@ PageSet.prototype.render = function (current) {
 
 PageSet.prototype.addEventHandler = function () {
 
-    addEvent(this.container, 'click', function (event) {
-        var e = getEvent(event);
-        var target = getTarget(e);
+    event.addEvent(this.container, 'click', function (event$$1) {
+        var e = event.getEvent(event$$1);
+        var target = event.getTarget(e);
 
         if (target.nodeName.toUpperCase() === 'A') {
             var index = target.getAttribute('data-num');
