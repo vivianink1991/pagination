@@ -1,3 +1,6 @@
+
+该组件提供了分页页码显示的功能，根据不同的参数配置可以生成不同的显示效果。
+
 ## 使用说明
 
 ```js
@@ -57,7 +60,7 @@ pagination(container, options);
 
 #### link_to
 
-设置页码的href值，默认为`{{page_num}}`, 当href中包含`{{page_num}}`时，会替换`{{page_num}}`为对应的页码数。
+设置页码的href值，默认为`#page={{page_num}}`, 当href中包含`{{page_num}}`时，会替换`{{page_num}}`为对应的页码数。
 
 #### callback(event, index)
 
@@ -106,3 +109,79 @@ pagination(container, options);
 ### goNext()
 
 向后一页
+
+## 开发说明
+
+开发中所使用的包可直接运行命令：
+```
+npm install
+```
+也可以按以下说明进行一一安装。
+
+### 开发环境
+
+使用babel进行编译：
+`npm install babel-cli`
+
+开发时使用了库[requirejs](https://github.com/requirejs/requirejs),需在根目录下配置`.babelrc`为：
+```
+{
+  "presets": ["es2015", stage-2"],
+  "plugins": [
+    "transform-es2015-modules-umd"
+  ]
+}
+```
+
+并进行安装：
+```
+npm install babel-preset-es2015
+npm install babel-plugin-transform-es2015-modules-umd
+npm install babel-preset-stage-2
+```
+之后运行命令：
+```
+npm run jsnext
+```
+在目录js中生成了编译好的js文件。
+
+### 打包
+使用了[rollup](https://github.com/rollup/rollup):
+```
+npm install babel-preset-es2015-rollup
+```
+在根目录下配置文件`rollup_config.js`：
+```
+    import babel from 'rollup-plugin-babel';
+
+    export default {
+      entry: 'jsnext/core.js',
+      dest: 'build/pagination.js',
+      plugins: [
+        babel({
+          exclude: 'node_modules/**',
+        })
+      ],
+      format: 'umd'
+    };
+```
+并更改`.babelrc`为：
+```
+{
+  "presets": ["es2015-rollup"]
+}
+```
+运行`npm run build`
+
+在`build`目录中生成打包好的文件`paginaiton.js`
+
+###压缩
+```
+npm install uglify-js
+```
+运行 `npm run publish`
+
+在`build`目录下生成了压缩的文件`pagination.min.js`
+
+
+

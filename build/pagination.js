@@ -1,8 +1,26 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('event')) :
-    typeof define === 'function' && define.amd ? define(['event'], factory) :
-    (global.pagination = factory(global.event));
-}(this, (function (event) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.pagination = factory());
+}(this, (function () { 'use strict';
+
+function addEvent(elem, type, handler) {
+    if (document.addEventListener) {
+        elem.addEventListener(type, handler, false);
+    } else if (document.attachEvent) {
+        elem.attachEvent('on' + type, handler);
+    } else {
+        elem['on' + type] = handler;
+    }
+}
+
+function getEvent(event) {
+    return event ? event : window.event;
+}
+
+function getTarget(event) {
+    return event.target || event.srcElement;
+}
 
 function extend(src, dst) {
     var keys = Object.keys(dst);
@@ -12,7 +30,7 @@ function extend(src, dst) {
     return src;
 }
 function replace(str, replacement) {
-    return str.replace(/{{.*}}/, '#' + replacement);
+    return str.replace(/{{.*}}/, replacement);
 }
 
 function PageSet(container, options) {
@@ -29,10 +47,8 @@ function PageSet(container, options) {
         ellipse_text: '...',
         prev_text: '&lt',
         next_text: '&gt',
-        link_to: '{{page_num}}',
-        callback: function callback(event$$1, index) {
-            event.preventDefault(event.getEvent(event$$1));
-        },
+        link_to: '#page={{page_num}}',
+        callback: function callback(event, index) {},
         load_first_page: false,
         style_prefix: 'pagination'
     }, options);
@@ -226,9 +242,9 @@ PageSet.prototype.render = function (current) {
 
 PageSet.prototype.addEventHandler = function () {
 
-    event.addEvent(this.container, 'click', function (event$$1) {
-        var e = event.getEvent(event$$1);
-        var target = event.getTarget(e);
+    addEvent(this.container, 'click', function (event) {
+        var e = getEvent(event);
+        var target = getTarget(e);
 
         if (target.nodeName.toUpperCase() === 'A') {
             var index = target.getAttribute('data-num');
@@ -251,7 +267,7 @@ PageSet.prototype.go = function (index) {
         return;
     }
     this.render(index - this.start_index);
-    this.config.callback(null, index - this.start_index);
+    this.config.callback(event, index - this.start_index);
 };
 
 PageSet.prototype.goPrev = function () {
@@ -259,7 +275,7 @@ PageSet.prototype.goPrev = function () {
         return;
     }
     this.render(this.current - 1);
-    this.config.callback(null, this.current);
+    this.config.callback(event, this.current);
 };
 
 PageSet.prototype.goNext = function () {
@@ -267,7 +283,7 @@ PageSet.prototype.goNext = function () {
         return;
     }
     this.render(this.current + 1);
-    this.config.callback(null, this.current);
+    this.config.callback(event, this.current);
 };
 
 function checkOptions(options) {
@@ -306,8 +322,8 @@ function pagination(container, options) {
     var page = new PageSet(container, options);
     page.render(page.config.current);
 
-    if (page.load_first_page) {
-        page.config.callback(null, this.config.page_index);
+    if (page.config.load_first_page === true) {
+        page.config.callback(event, page.config.page_index);
     }
 
     page.addEventHandler();

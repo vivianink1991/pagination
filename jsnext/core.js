@@ -15,9 +15,8 @@ function PageSet(container, options) {
         ellipse_text: '...',
         prev_text: '&lt',
         next_text: '&gt',
-        link_to: '{{page_num}}',
+        link_to: '#page={{page_num}}',
         callback: (event, index) => {
-            preventDefault(getEvent(event));
         },
         load_first_page: false,
         style_prefix: 'pagination'
@@ -245,7 +244,7 @@ PageSet.prototype.go = function(index) {
         return;
     }
     this.render(index - this.start_index);
-    this.config.callback(null, index - this.start_index);
+    this.config.callback(event, index - this.start_index);
 };
 
 PageSet.prototype.goPrev = function() {
@@ -253,7 +252,7 @@ PageSet.prototype.goPrev = function() {
         return;
     }
     this.render(this.current - 1);
-    this.config.callback(null, this.current);
+    this.config.callback(event, this.current);
 };
 
 PageSet.prototype.goNext = function() {
@@ -261,7 +260,7 @@ PageSet.prototype.goNext = function() {
         return;
     }
     this.render(this.current + 1);
-    this.config.callback(null, this.current);    
+    this.config.callback(event, this.current);    
 };
 
 function checkOptions(options) {
@@ -300,8 +299,8 @@ function pagination(container, options) {
     let page = new PageSet(container, options);
     page.render(page.config.current);
 
-    if (page.load_first_page) {
-        page.config.callback(null, this.config.page_index);
+    if (page.config.load_first_page === true) {
+        page.config.callback(event, page.config.page_index);
     }
 
     page.addEventHandler();
@@ -313,5 +312,4 @@ function pagination(container, options) {
         goNext: page.goNext.bind(page)
     };  
 }
-
 export default pagination;

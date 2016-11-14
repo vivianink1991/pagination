@@ -6,7 +6,7 @@ function extend(src, dst) {
     return src;
 }
 function replace(str, replacement) {
-    return str.replace(/{{.*}}/, '#' + replacement);
+    return str.replace(/{{.*}}/, replacement);
 }
 export {
     extend,

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<link rel="stylesheet" href="../style/pagination.css">
+<style>
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+.slide_btns {
+    margin-top: 20px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+<div id="pagination"></div>
+<form action="">
+    <input type="text" id="num_input">
+    <button type="button" id="num_btn">go</button>
+    <div class="slide_btns">
+        <button type="button" id="prev_btn">prev</button>
+        <button type="button" id="next_btn">next</button>
+    </div>
+</form>
+
+<script src="../js/lib/require.js"></script>
+<script>
+    requirejs.config({
+        baseUrl: '../js'
+    });
+</script>
+<script>
+require(['core'], function(module) {
+   var pageSet =  module.default(document.getElementById('pagination'), {
+        total_items: 100,
+        first_text: '首页',
+        last_text: '尾页',
+        callback: function(event, index) {
+            event.preventDefault();
+            console.info('current page is: ', index);
+        }
+    });
+
+    var numInput = document.getElementById('num_input');
+    var numBtn = document.getElementById('num_btn');
+
+    numBtn.addEventListener('click', function() {
+        pageSet.go(numInput.value);
+    }, false);
+
+    var prevBtn = document.getElementById('prev_btn');
+    var nextBtn = document.getElementById('next_btn');
+
+    prevBtn.addEventListener('click', function() {
+        pageSet.goPrev();
+    }, false);
+    nextBtn.addEventListener('click', function() {
+        pageSet.goNext();
+    }, false);
+});
+</script>    
+</body>
+</html>

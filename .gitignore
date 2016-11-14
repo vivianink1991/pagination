@@ -1,4 +1,4 @@
 *.scss
-test
 js
 node_modules
+jsnext/lib
