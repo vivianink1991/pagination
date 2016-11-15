@@ -126,10 +126,10 @@ npm install
 开发时使用了库[requirejs](https://github.com/requirejs/requirejs),需在根目录下配置`.babelrc`为：
 ```
 {
-  "presets": ["es2015", stage-2"],
-  "plugins": [
-    "transform-es2015-modules-umd"
-  ]
+    "presets": ["es2015", stage-2"],
+    "plugins": [
+        "transform-es2015-modules-umd"
+    ]
 }
 ```
 
@@ -152,23 +152,23 @@ npm install babel-preset-es2015-rollup
 ```
 在根目录下配置文件`rollup_config.js`：
 ```
-    import babel from 'rollup-plugin-babel';
+import babel from 'rollup-plugin-babel';
 
-    export default {
-      entry: 'jsnext/core.js',
-      dest: 'build/pagination.js',
-      plugins: [
+export default {
+    entry: 'jsnext/core.js',
+    dest: 'build/pagination.js',
+    plugins: [
         babel({
-          exclude: 'node_modules/**',
+            exclude: 'node_modules/**',
         })
-      ],
-      format: 'umd'
-    };
+    ],
+    format: 'umd'
+};
 ```
 并更改`.babelrc`为：
 ```
 {
-  "presets": ["es2015-rollup"]
+    "presets": ["es2015-rollup"]
 }
 ```
 运行`npm run build`
