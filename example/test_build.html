@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<link rel="stylesheet" href="../style/pagination.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+}
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+.slide_btns {
+    margin-top: 20px;
+    text-align: center;
+}
+#num_input {
+    line-height: 35px;
+    height: 35px;
+    box-sizing: border-box;
+    margin-right: 20px;
+}
+#num_btn {
+    height: 35px;
+    line-height: 35px;
+    border: 0;
+    border-radius: 3px;
+    color: #fff;
+    background: #4990E2;
+    width: 80px;
+    text-align: center;
+    font-size: 15px;
+}
+.slide_btns {
+    margin-top: 20px;
+}
+.slide_btns button{
+    border: 0;
+    height: 35px;
+    width: 80px;
+    line-height: 35px;
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+}
+#prev_btn {
+    background: #ccc;
+    color: #000;
+}
+#next_btn {
+    margin-left: 20px;
+    background: #FF5960;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+    <div id="pagination"></div>
+    <form action="">
+        <input type="text" id="num_input">
+        <button type="button" id="num_btn">go</button>
+        <div class="slide_btns">
+            <button type="button" id="prev_btn">prev</button>
+            <button type="button" id="next_btn">next</button>
+        </div>
+    </form>   
+</div>
+
+<script src="../build/pagination.js"></script>
+<script>
+var pageSet =  pagination(document.getElementById('pagination'), {
+    total_items: 100,
+    current: 2,
+    first_text: '首页',
+    last_text: '尾页',
+    callback: function(event, index) {
+        event.preventDefault();
+        console.info('current page is: ', index);
+    }
+});
+
+var numInput = document.getElementById('num_input');
+var numBtn = document.getElementById('num_btn');
+
+numBtn.addEventListener('click', function() {
+    pageSet.go(numInput.value);
+}, false);
+
+var prevBtn = document.getElementById('prev_btn');
+var nextBtn = document.getElementById('next_btn');
+
+prevBtn.addEventListener('click', function() {
+    pageSet.goPrev();
+}, false);
+nextBtn.addEventListener('click', function() {
+    pageSet.goNext();
+}, false);
+</script>    
+</body>
+</html>

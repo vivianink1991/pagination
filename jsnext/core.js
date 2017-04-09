@@ -98,19 +98,19 @@ PageSet.prototype.render = function(current) {
 
     if (currentText < this.config.num_pages) { 
         for (let i = 1; i <= this.config.num_pages; i++) {
-            if (i === currentText) {
+            if (i !== currentText) {
+                this.container.appendChild(this.createPageItem({
+                    text: i, 
+                    nodeName: 'a', 
+                    nodeType: 'num'})
+                );    
+            } else {
                 this.container.appendChild(this.createPageItem({
                         text: currentText, 
                         nodeName: 'span', 
                         nodeType: 'num', 
                         className: 'current'})
                 );
-            } else {
-                this.container.appendChild(this.createPageItem({
-                    text: i, 
-                    nodeName: 'a', 
-                    nodeType: 'num'})
-                );    
             }
         }
 
@@ -231,15 +231,16 @@ PageSet.prototype.getStatus = function() {
 };
 
 PageSet.prototype.go = function(index) {
+    index = parseInt(index);
     if (index < 1 || index > this.total_pages) {
         return;
     }
-    this.render(index - this.offSetIndex);
-    this.config.callback(event, index - this.offSetIndex);
+    this.render(index - this.offsetIndex);
+    this.config.callback(event, index - this.offsetIndex);
 };
 
 PageSet.prototype.goPrev = function() {
-    if (this.current + this.offSetIndex === 1) {
+    if (this.current + this.offsetIndex === 1) {
         return;
     }
     this.render(this.current - 1);
@@ -247,7 +248,7 @@ PageSet.prototype.goPrev = function() {
 };
 
 PageSet.prototype.goNext = function() {
-    if (this.current + this.offSetIndex === this.total_pages) {
+    if (this.current + this.offsetIndex === this.total_pages) {
         return;
     }
     this.render(this.current + 1);

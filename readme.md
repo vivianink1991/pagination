@@ -46,7 +46,7 @@ pagination(container, options);
 
 #### last_text
 
-指定尾页文字，默认值为总页码数。传入`null`值表示不显示尾页按钮。
+指定尾页文字，默认值为`{{total_pages}}`。传入`null`值表示不显示尾页按钮。
 
 #### ellipse_text
 
@@ -70,7 +70,7 @@ pagination(container, options);
 
 0. `event`
     
-    例如用于阻止点击后的默认行为 `event.preventDefault();`
+    事件对象，例如用于阻止点击后的默认行为 `event.preventDefault();`
 
 0. `index`
 
@@ -127,14 +127,14 @@ npm install
 npm install --save-dev babel-cli
 npm install --save-dev babel-preset-es2015
 npm install --save-dev babel-preset-stage-2
-npm install --save-dev babel-plugin-transform-es2015-modules-umd
+npm install --save-dev babel-plugin-transform-es2015-modules-amd
 ```
-开发时使用[requirejs](https://github.com/requirejs/requirejs)来加载模块。在根目录下配置`.babelrc`为：
+开发时使用[requirejs](https://github.com/requirejs/requirejs)来加载编译后的模块。在根目录下配置`.babelrc`为：
 ```
 {
-    "presets": ["es2015", stage-2"],
+    "presets": ["es2015", "stage-2"],
     "plugins": [
-        "transform-es2015-modules-umd"
+        "transform-es2015-modules-amd"
     ]
 }
 ```
@@ -145,9 +145,11 @@ npm run jsnext
 在js文件夹中生成了编译好的js文件。
 
 ### 打包
-使用了[rollup](https://github.com/rollup/rollup):
+使用[rollup](https://github.com/rollup/rollup)来打包ES6模块:
 ```
-npm install babel-preset-es2015-rollup
+npm install --save-dev rollup
+npm install --save-dev rollup-plugin-babel
+npm install --save-dev babel-preset-es2015-rollup
 ```
 在根目录下配置文件`rollup_config.js`：
 ```
@@ -156,6 +158,7 @@ import babel from 'rollup-plugin-babel';
 export default {
     entry: 'jsnext/core.js',
     dest: 'build/pagination.js',
+    moduleName: 'pagination',
     plugins: [
         babel({
             exclude: 'node_modules/**',
