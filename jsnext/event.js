@@ -1,37 +1,74 @@
 function addEvent(elem, type, handler) {
-    if (document.addEventListener) {
-        elem.addEventListener(type, handler, false);
-    } else if (document.attachEvent) {
-        elem.attachEvent('on' + type, handler);
+    if (elem.addEventListener) {
+        addEvent = (elem, type, handler) => {
+            elem.addEventListener(type, handler, false);     
+        };
+    } else if (elem.attachEvent) {
+        addEvent = (elem, type, handler) => {
+            elem.attachEvent('on' + type, handler);  
+        };
     } else {
-        elem['on' + type] = handler;
+        addEvent = (elem, type, handler) => {
+            elem['on' + type] = handler;    
+        };
     }
+    addEvent(elem, type, handler);
 }
 
 function removeEvent(elem, type, handler) {
-    if (document.removeEventListener) {
-        elem.removeEventListener(type, handler, false);
-    } else if (document.attachEvent) {
-        elem.detachEvent('on' + type, handler);
+    if (elem.removeEventListener) {
+        removeEvent = (elem, type, handler) => {
+            elem.removeEventListener(type, handler, false); 
+        };
+    } else if (elem.attachEvent) {
+        removeEvent = (elem, type, handler) => {
+            elem.detachEvent('on' + type, handler);
+        };
     } else {
-        elem['on' + type] = null;
+        removeEvent = (elem, type, handler) => {
+            elem['on' + type] = null;
+        }
     }
+    removeEvent(elem, type, handler);
 }
 
 function getEvent(event) {
-    return event ? event : window.event;
+    if (event) {
+        getEvent = event => {
+            return event; 
+        };
+    } else {
+        getEvent = event => {
+            return window.event;
+        }
+    }
+    return getEvent(event);
 }
 
 function getTarget(event) {
-    return event.target || event.srcElement;
+    if (event.target) {
+        getTarget = event => {
+            return event.target;
+        };
+    } else {
+        getTarget = event => {
+            return event.srcElement;
+        };
+    }
+    return getTarget(event);
 }
 
 function preventDefault(event) {
     if (event.preventDefault) {
-        event.preventDefault();
+        preventDefault = event => {
+            event.preventDefault();
+        };
     } else {
-        event.returnValue = false;
-    }   
+        preventDefault = event => {
+            event.returnValue = false;   
+        }
+    }
+    preventDefault(event);   
 }
 
 export {

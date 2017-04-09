@@ -20,18 +20,18 @@ function PageSet(container, options) {
         },
         load_first_page: false,
         style_prefix: 'pagination'
-    }, options);
+    }, options || {});
 
     this.total_pages = Math.ceil(this.config.total_items / this.config.items_per_page);
     this.config.num_pages = this.config.num_pages > this.total_pages ? this.total_pages : this.config.num_pages;
     this.config.current = this.config.current > this.total_pages ? this.total_pages : this.config.current;
-    this.start_index = Math.abs(this.config.page_index - 1); 
+    this.offsetIndex = Math.abs(this.config.page_index - 1); //页码文本=current + offsetIndex
 }
 
-PageSet.prototype.createPageItem = function({text, nodeName, nodeType, className, current}) {
+PageSet.prototype.createPageItem = function({nodeName, nodeType, text, className, currentText}) {
 
     let item = document.createElement(nodeName);
-    
+
     if (nodeName === 'a') {
         switch (nodeType) {
             case 'num':
@@ -39,11 +39,11 @@ PageSet.prototype.createPageItem = function({text, nodeName, nodeType, className
                 break;
 
             case 'prev':
-                this.setATag(item, current - 1);
+                this.setATag(item, currentText - 1);
                 break;
 
             case 'next':
-                this.setATag(item, current + 1);
+                this.setATag(item, currentText + 1);
                 break;
 
             case 'first':
@@ -65,8 +65,8 @@ PageSet.prototype.createPageItem = function({text, nodeName, nodeType, className
     return item;
 };
 
-PageSet.prototype.setATag = function(item, num) {
-    let linkNum = num - this.start_index;
+PageSet.prototype.setATag = function(item, numText) {
+    let linkNum = numText - this.offsetIndex;
     item.href = replace(this.config.link_to, linkNum);
     item.setAttribute('data-num', linkNum);
     return item;
@@ -74,13 +74,11 @@ PageSet.prototype.setATag = function(item, num) {
 
 PageSet.prototype.render = function(current) {
     this.container.innerHTML = '';
-    this.container.className = this.config.style_prefix;
-    current = parseInt(current);
-    this.current = current; 
-    current = current + this.start_index; 
+    this.current = parseInt(current);
+    let currentText = this.current + this.offsetIndex; 
 
     let prevItem = null;
-    if (current === 1) {
+    if (currentText === 1) {
         prevItem = this.createPageItem({
             text: this.config.prev_text,
             nodeName: 'span', 
@@ -92,27 +90,27 @@ PageSet.prototype.render = function(current) {
             text: this.config.prev_text, 
             nodeName: 'a', 
             nodeType: 'prev',
-            current: current
+            currentText: currentText
         });
     }
 
     this.container.appendChild(prevItem);
 
-    if (current < this.config.num_pages) { 
+    if (currentText < this.config.num_pages) { 
         for (let i = 1; i <= this.config.num_pages; i++) {
-            if ( i === current) {
+            if (i === currentText) {
                 this.container.appendChild(this.createPageItem({
-                    text: current, 
-                    nodeName: 'span', 
-                    nodeType: 'num', 
-                    className: 'current'})
+                        text: currentText, 
+                        nodeName: 'span', 
+                        nodeType: 'num', 
+                        className: 'current'})
                 );
             } else {
                 this.container.appendChild(this.createPageItem({
                     text: i, 
                     nodeName: 'a', 
                     nodeType: 'num'})
-                );
+                );    
             }
         }
 
@@ -125,36 +123,32 @@ PageSet.prototype.render = function(current) {
                 className: 'ellipse'})
             );
         
-            if (this.config.last_text) {
-                this.container.appendChild(this.createPageItem({
-                    text: this.config.last_text.replace(/{{.*}}/, this.total_pages), 
-                    nodeName: 'a',
-                    nodeType: 'last'})
-                );                
-            }
+            this.config.last_text && this.container.appendChild(this.createPageItem({
+                text: this.config.last_text.replace(/{{.*}}/, this.total_pages), //如果设置了则不会替换
+                nodeName: 'a',
+                nodeType: 'last'})
+            );                
+            
         }
     } else { 
         let rtEdge = Math.floor((this.config.num_pages - 1) / 2);
-        while (current + rtEdge > this.total_pages) {
+        while (currentText + rtEdge > this.total_pages) {
             rtEdge--;
         }
         let ltEdge = this.config.num_pages - 1 - rtEdge;
 
         if (this.config.num_pages != this.total_pages) {
 
-            if (this.config.first_text) {
-                this.container.appendChild(this.createPageItem({ 
-                    text: this.config.first_text, 
-                    nodeName: 'a',
-                    nodeType: 'first'})
-                );
-            }
-            if (current - ltEdge > 2) { 
+            this.config.first_text && this.container.appendChild(this.createPageItem({ 
+                text: this.config.first_text, 
+                nodeName: 'a',
+                nodeType: 'first'}));
+
+            if (currentText - ltEdge > 2) { 
                 this.container.appendChild(this.createPageItem({
                     text: this.config.ellipse_text, 
                     nodeName: 'span',
-                    className: 'ellipse'})
-                );
+                    className: 'ellipse'}));
             }
         }
 
@@ -162,27 +156,24 @@ PageSet.prototype.render = function(current) {
             this.container.appendChild(this.createPageItem({
                 text: current - ltEdge, 
                 nodeName: 'a',
-                nodeType: 'num'})
-            );
+                nodeType: 'num'}));
             ltEdge--;
         }
         this.container.appendChild(this.createPageItem({ 
-            text: current, 
+            text: currentText, 
             nodeName: 'span',
-            className: 'current'})
-        );
+            className: 'current'}));
 
         let rtCount = 1;
         while (rtCount <= rtEdge) {
             this.container.appendChild(this.createPageItem({ 
-                text: current + rtCount, 
+                text: currentText + rtCount, 
                 nodeName: 'a',
-                nodeType: 'num'})
-            );
+                nodeType: 'num'}));
             rtCount++;
         }
 
-        if (rtCount + current < this.total_pages) {
+        if (rtCount + currentText < this.total_pages) {
             this.container.appendChild(this.createPageItem({
                 text: this.config.ellipse_text, 
                 nodeName: 'span',
@@ -190,7 +181,7 @@ PageSet.prototype.render = function(current) {
             );
         }
 
-        if (this.config.last_text && (rtCount - 1 + current < this.total_pages)) {
+        if (this.config.last_text && (rtCount - 1 + currentText < this.total_pages)) {
             this.container.appendChild(this.createPageItem({
                 text: this.config.last_text.replace(/{{.*}}/, this.total_pages), 
                 nodeName: 'a',
@@ -200,7 +191,7 @@ PageSet.prototype.render = function(current) {
     }
    
     let nextItem = null;
-    if (current === this.total_pages) {
+    if (currentText === this.total_pages) {
         nextItem = this.createPageItem({
             text: this.config.next_text, 
             nodeName: 'span', 
@@ -211,7 +202,7 @@ PageSet.prototype.render = function(current) {
             text: this.config.next_text, 
             nodeName: 'a',
             nodeType: 'next',
-            current: current}
+            currentText: currentText}
         );
     }
     this.container.appendChild(nextItem);
@@ -243,12 +234,12 @@ PageSet.prototype.go = function(index) {
     if (index < 1 || index > this.total_pages) {
         return;
     }
-    this.render(index - this.start_index);
-    this.config.callback(event, index - this.start_index);
+    this.render(index - this.offSetIndex);
+    this.config.callback(event, index - this.offSetIndex);
 };
 
 PageSet.prototype.goPrev = function() {
-    if (this.current + this.start_index === 1) {
+    if (this.current + this.offSetIndex === 1) {
         return;
     }
     this.render(this.current - 1);
@@ -256,7 +247,7 @@ PageSet.prototype.goPrev = function() {
 };
 
 PageSet.prototype.goNext = function() {
-    if (this.current + this.start_index === this.total_pages) {
+    if (this.current + this.offSetIndex === this.total_pages) {
         return;
     }
     this.render(this.current + 1);
@@ -297,6 +288,7 @@ function pagination(container, options) {
         return;
     }
     let page = new PageSet(container, options);
+    page.container.className += ` ${page.config.style_prefix}`;
     page.render(page.config.current);
 
     if (page.config.load_first_page === true) {

@@ -3,6 +3,8 @@
 
 ## 使用说明
 
+如果您使用的是ES6，那么可以直接像下面这样引用：
+
 ```js
 import pagination from 'pagination'; 
 pagination(container, options);
@@ -20,7 +22,7 @@ pagination(container, options);
 
 #### total_items
 
-总的数据条目数。
+总的数据条目数，必须提供。
 
 #### items_per_page
 
@@ -32,7 +34,7 @@ pagination(container, options);
 
 #### page_index
 
-页码起始序号(类似数组下标)，只能是0或1，默认是1。
+页码起始顺序号从什么数字开始，0或1，默认是1。
 
 #### num_pages
 
@@ -44,7 +46,7 @@ pagination(container, options);
 
 #### last_text
 
-指定尾页文字，默认值为`{{total_pages}}`。传入`null`值表示不显示尾页按钮。
+指定尾页文字，默认值为总页码数。传入`null`值表示不显示尾页按钮。
 
 #### ellipse_text
 
@@ -60,7 +62,7 @@ pagination(container, options);
 
 #### link_to
 
-设置页码的href值，默认为`#page={{page_num}}`, 当href中包含`{{page_num}}`时，会替换`{{page_num}}`为对应的页码数。
+设置页码的href值，例如在页面设置锚点等。默认为`#page={{page_num}}`, 当href中包含`{{page_num}}`时，会替换`{{page_num}}`为对应的页码数。
 
 #### callback(event, index)
 
@@ -120,10 +122,14 @@ npm install
 
 ### 开发环境
 
-使用babel进行编译：
-`npm install babel-cli`
-
-开发时使用了库[requirejs](https://github.com/requirejs/requirejs),需在根目录下配置`.babelrc`为：
+使用babel进行ES6编译, 安装babel和需要的插件：
+```
+npm install --save-dev babel-cli
+npm install --save-dev babel-preset-es2015
+npm install --save-dev babel-preset-stage-2
+npm install --save-dev babel-plugin-transform-es2015-modules-umd
+```
+开发时使用[requirejs](https://github.com/requirejs/requirejs)来加载模块。在根目录下配置`.babelrc`为：
 ```
 {
     "presets": ["es2015", stage-2"],
@@ -132,18 +138,11 @@ npm install
     ]
 }
 ```
-
-并进行安装：
-```
-npm install babel-preset-es2015
-npm install babel-plugin-transform-es2015-modules-umd
-npm install babel-preset-stage-2
-```
 之后运行命令：
 ```
 npm run jsnext
 ```
-在目录js中生成了编译好的js文件。
+在js文件夹中生成了编译好的js文件。
 
 ### 打包
 使用了[rollup](https://github.com/rollup/rollup):

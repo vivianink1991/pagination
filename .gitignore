@@ -1,4 +1,4 @@
 *.scss
-js
+js/lib
 node_modules
 jsnext/lib
