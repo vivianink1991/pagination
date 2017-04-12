@@ -177,7 +177,7 @@ export default {
 
 在`build`目录中生成打包好的文件`paginaiton.js`
 
-###压缩
+### 压缩
 ```
 npm install uglify-js
 ```
