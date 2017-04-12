@@ -58,6 +58,18 @@ function replace(str, replacement) {
     return str.replace(/{{.*}}/, replacement);
 }
 
+/**
+ * @file 本文件实现了分页组件的核心功能。
+ *       主要包括分页组件类PageSet、对外暴露的接口pagination以及配置项合法性检查函数checkOptions。
+ * @author Jiaxin Li(vivianink@126.com)
+ */
+
+/**
+ * 分页组件构造函数
+ *
+ * @param {Node} container 承载组件的DOM节点
+ * @param {Object} option 组件配置项
+ */
 function PageSet(container, options) {
 
     this.container = container;
@@ -81,9 +93,20 @@ function PageSet(container, options) {
     this.total_pages = Math.ceil(this.config.total_items / this.config.items_per_page);
     this.config.num_pages = this.config.num_pages > this.total_pages ? this.total_pages : this.config.num_pages;
     this.config.current = this.config.current > this.total_pages ? this.total_pages : this.config.current;
-    this.offsetIndex = Math.abs(this.config.page_index - 1); //页码文本=current + offsetIndex
+    this.offsetIndex = Math.abs(this.config.page_index - 1); //页码文本=this.current + offsetIndex
 }
 
+/**
+* 生成页码元件
+*
+* @param {String} nodeName 元件标签类型，包括'a' 和'span'两种
+* @param {String} nodeType a标签的状态类型，包括'num'、'prev'、'next'、'first'和'last'
+* @param {String} text 元件内的文本内容
+* @param {String} className 元件类名
+* @param {Number} currentText 标签代表的页码值（从1开始）
+*
+* @return {Node} DOM节点
+*/
 PageSet.prototype.createPageItem = function (_ref) {
     var nodeName = _ref.nodeName,
         nodeType = _ref.nodeType,
@@ -127,6 +150,14 @@ PageSet.prototype.createPageItem = function (_ref) {
     return item;
 };
 
+/**
+* 设置a标签
+*
+* @ param {Node} a标签节点
+* @ param {Number} 页码值（从1开始）
+*
+* @return {Node} a标签节点
+*/
 PageSet.prototype.setATag = function (item, numText) {
     var linkNum = numText - this.offsetIndex;
     item.href = replace(this.config.link_to, linkNum);
@@ -134,6 +165,11 @@ PageSet.prototype.setATag = function (item, numText) {
     return item;
 };
 
+/**
+* 根据当前点击的页码值渲染页码组件
+*
+* @param {String} 当前点击的页码值（从this.config.page_index开始）
+*/
 PageSet.prototype.render = function (current) {
     this.container.innerHTML = '';
     this.current = parseInt(current);
@@ -284,12 +320,11 @@ PageSet.prototype.getStatus = function () {
 
 PageSet.prototype.go = function (index) {
     index = parseInt(index);
-    console.info(index);
     if (index < 1 || index > this.total_pages) {
         return;
     }
     this.render(index - this.offsetIndex);
-    this.config.callback(event, index - this.offSetIndex);
+    this.config.callback(event, index - this.offsetIndex);
 };
 
 PageSet.prototype.goPrev = function () {
