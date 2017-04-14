@@ -3,11 +3,28 @@
 
 ## 使用说明
 
+### ES6
+
 如果您使用的是ES6，那么可以直接像下面这样引用：
 
 ```js
 import pagination from 'pagination'; 
 pagination(container, options);
+```
+### AMD
+
+```js
+require(['pagination'], function(module) {
+    module.default(container, options);
+});
+```
+### 通过`script`标签引入
+
+```
+<script src="pagination.min.js"></script>
+<script>
+    pagination(container, options);
+</script>
 ```
 
 ## 参数说明
