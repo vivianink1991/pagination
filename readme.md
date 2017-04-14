@@ -1,5 +1,5 @@
 
-该组件提供了分页页码显示的功能，根据不同的参数配置可以生成不同的显示效果。
+该组件提供了分页页码显示的功能，根据不同的参数配置可以生成不同的显示效果。[查看样例](https://vivianink1991.github.io/pagination/example/test_build.html)
 
 ## 使用说明
 
