@@ -20,7 +20,7 @@ require(['pagination'], function(module) {
 ```
 ### 通过`script`标签引入
 
-```
+```js
 <script src="pagination.min.js"></script>
 <script>
     pagination(container, options);
@@ -169,7 +169,7 @@ npm install --save-dev rollup-plugin-babel
 npm install --save-dev babel-preset-es2015-rollup
 ```
 在根目录下配置文件`rollup_config.js`：
-```
+``` js
 import babel from 'rollup-plugin-babel';
 
 export default {
