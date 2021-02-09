@@ -1,5 +1,4 @@
 function addEvent(elem, type, handler) {
-    console.log('trigger event ' + type);
     if (elem.addEventListener) {
         addEvent = (elem, type, handler) => {
             elem.addEventListener(type, handler, false);     
